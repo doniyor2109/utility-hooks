@@ -1,7 +1,7 @@
 export function warning(
   condition: boolean,
   format: string,
-  ...args: Array<unknown>
+  args: Array<unknown>
 ): void {
   if (!condition || process.env.NODE_ENV === "production") {
     return;

@@ -18,9 +18,7 @@ export function areDepsEqualWith(
         "order and size of this array must remain constant.\n\n" +
         "Previous: [%s]\n" +
         "Incoming: [%s]",
-      hookName,
-      nextDeps,
-      prevDeps
+      [hookName, nextDeps, prevDeps]
     );
   }
 
