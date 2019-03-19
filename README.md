@@ -1,6 +1,6 @@
 # utility-hooks
 
-> Collection of low-level hooks for React.
+> Collection of low-level React hooks.
 
 [![npm version](https://img.shields.io/npm/v/utility-hooks.svg)](https://npmjs.com/utility-hooks)
 [![npm minzipped size](https://img.shields.io/bundlephobia/minzip/utility-hooks.svg)](https://bundlephobia.com/result?p=utility-hooks)
