@@ -9,7 +9,7 @@ export function areDepsEqualWith(
   hookName: string,
   nextDeps: DependencyList,
   prevDeps: DependencyList,
-  is: Comparator
+  isEqual: Comparator
 ): boolean {
   if (process.env.NODE_ENV === "production") {
     warning(
@@ -23,7 +23,7 @@ export function areDepsEqualWith(
   }
 
   for (let i = 0; i < prevDeps.length && i < nextDeps.length; i++) {
-    if (!is(nextDeps[i], prevDeps[i])) {
+    if (!isEqual(nextDeps[i], prevDeps[i])) {
       return false;
     }
   }
