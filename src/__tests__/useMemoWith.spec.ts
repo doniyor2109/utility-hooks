@@ -15,7 +15,7 @@ it("compares dependencies with custom comparator", () => {
 
   const { result, rerender } = renderHook(
     ({ value }) => useMemoWith(() => value, isEqualDate, [value]),
-    { initialProps: { value: value1 } }
+    { initialProps: { value: value1 } },
   );
 
   expect(result.current).toBe(value1);

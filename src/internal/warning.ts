@@ -1,7 +1,7 @@
 export function warning(
   condition: boolean,
   format: string,
-  args: Array<unknown>
+  args: Array<unknown>,
 ): void {
   if (!condition || process.env.NODE_ENV === "production") {
     return;
@@ -16,7 +16,7 @@ export function warning(
     let argIndex = 0;
 
     throw new Error(
-      `Warning: ${format.replace(/%s/g, () => args[argIndex++] as string)}`
+      `Warning: ${format.replace(/%s/g, () => args[argIndex++] as string)}`,
     );
   } catch {}
 }

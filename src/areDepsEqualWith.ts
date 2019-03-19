@@ -9,7 +9,7 @@ export function areDepsEqualWith(
   hookName: string,
   nextDeps: DependencyList,
   prevDeps: DependencyList,
-  isEqual: Comparator
+  isEqual: Comparator,
 ): boolean {
   if (process.env.NODE_ENV === "production") {
     warning(
@@ -18,7 +18,7 @@ export function areDepsEqualWith(
         "order and size of this array must remain constant.\n\n" +
         "Previous: [%s]\n" +
         "Incoming: [%s]",
-      [hookName, nextDeps, prevDeps]
+      [hookName, nextDeps, prevDeps],
     );
   }
 

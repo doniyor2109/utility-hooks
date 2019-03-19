@@ -51,10 +51,10 @@ function LoginForm({ user }) {
   const initialValues = useMemoOnce(
     () => ({
       email: user && user.email,
-      phone: user && user.phone
+      phone: user && user.phone,
     }),
     _.isEqual,
-    [user]
+    [user],
   );
 
   return <Form initialValues={initialValues} />;

@@ -7,7 +7,7 @@ afterEach(cleanup);
 it("creates proxy function", () => {
   const { result, rerender } = renderHook(
     ({ value }) => useCallbackProxy(() => value),
-    { initialProps: { value: 0 } }
+    { initialProps: { value: 0 } },
   );
 
   const { current: proxy } = result;
