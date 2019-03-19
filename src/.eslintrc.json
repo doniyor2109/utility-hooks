@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": "@dc0de/eslint-config-react",
+  "rules": {
+    "import/no-internal-modules": [
+      "error",
+      {
+        "allow": ["**/src/**"]
+      }
+    ]
+  }
+}

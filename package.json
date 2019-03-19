@@ -1,0 +1,83 @@
+{
+  "license": "MIT",
+  "name": "utility-hooks",
+  "version": "0.0.1",
+  "description": "Collection of low-level hooks for React.",
+  "repository": "git@github.com:umidbekkarimov/utility-hooks.git",
+  "author": "Umidbek Karimov <uma.karimov@gmail.com>",
+  "scripts": {
+    "ci": "yarn lint && yarn tsc --noEmit && yarn cover && yarn build",
+    "lint": "stylotron lint",
+    "test": "jest",
+    "tdd": "jest --watch",
+    "cover": "jest --coverage",
+    "build": "yarn pika-pack build"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-standard-pkg",
+        {
+          "exclude": [
+            "__tests__/**/*",
+            "__testutils__/**/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node"
+      ],
+      [
+        "@pika/plugin-build-web"
+      ],
+      [
+        "@pika/plugin-build-types"
+      ]
+    ]
+  },
+  "peerDependencies": {
+    "react": "^16.8.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@dc0de/eslint-config": "^0.5.0",
+    "@dc0de/eslint-config-base": "^0.5.0",
+    "@dc0de/eslint-config-node": "^0.5.5",
+    "@dc0de/eslint-config-react": "^0.5.11",
+    "@dc0de/jest-preset": "^0.0.8",
+    "@pika/pack": "^0.3.5",
+    "@pika/plugin-build-node": "^0.3.14",
+    "@pika/plugin-build-types": "^0.3.14",
+    "@pika/plugin-build-web": "^0.3.14",
+    "@pika/plugin-standard-pkg": "^0.3.14",
+    "@types/jest": "^24.0.11",
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "@typescript-eslint/parser": "^1.4.2",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.5.0",
+    "eslint": "^5.15.3",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-import-resolver-typescript": "^1.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-react": "^7.11.0",
+    "eslint-plugin-react-hooks": "^1.5.1",
+    "import-sort": "^6.0.0",
+    "import-sort-parser-typescript": "^6.0.0",
+    "import-sort-style-module": "^6.0.0",
+    "jest": "^24.5.0",
+    "jest-circus": "^24.5.0",
+    "prettier": "^1.16.4",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-hooks-testing-library": "^0.3.7",
+    "stylotron": "^0.0.36",
+    "typescript": "^3.3.3333"
+  }
+}
