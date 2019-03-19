@@ -77,7 +77,7 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-hooks-testing-library": "^0.3.7",
-    "stylotron": "^0.0.36",
+    "stylotron": "^0.0.37",
     "typescript": "^3.3.3333"
   }
 }
