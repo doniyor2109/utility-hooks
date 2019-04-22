@@ -35,10 +35,10 @@ function LoginForm({ onSubmit }) {
 Runs factory only once and writes value in component `ref`.
 
 ```javascript
-function App({ cache, children }) {
-  const client = useMemoOnce(() => createApolloClient({ cache }));
+function RenderTime() {
+  const renderTime = useMemoOnce(() => new Date());
 
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return <>{renderTime.toDateString()}</>;
 }
 ```
 
@@ -48,12 +48,9 @@ Compares each dependency with `isEqual` function to memoize value from `factory`
 
 ```javascript
 function LoginForm({ user }) {
-  const initialValues = useMemoOnce(
-    () => ({
-      email: user && user.email,
-      phone: user && user.phone,
-    }),
-    _.isEqual,
+  const initialValues = useMemoWith(
+    () => ({ email: user.email, phone: user.phone }),
+    (a, b) => a === b || (a.email === b.email && a.phone === b.phone),
     [user],
   );
 
