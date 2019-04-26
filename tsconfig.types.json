@@ -1,0 +1,6 @@
+{
+  "exclude": ["**/__tests__/**"],
+  "compilerOptions": {
+    "noEmit": false
+  }
+}

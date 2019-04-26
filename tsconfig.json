@@ -1,6 +1,7 @@
 {
   "include": ["src"],
   "compilerOptions": {
+    "noEmit": true,
     "lib": ["dom", "es2018"],
     "moduleResolution": "node",
     "strict": true,

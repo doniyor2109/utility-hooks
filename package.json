@@ -6,7 +6,7 @@
   "repository": "git@github.com:umidbekkarimov/utility-hooks.git",
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "scripts": {
-    "ci": "yarn lint && yarn tsc --noEmit && yarn cover && yarn build",
+    "ci": "yarn lint && yarn tsc && yarn cover && yarn build",
     "lint": "cg lint",
     "test": "jest",
     "tdd": "jest --watch",
@@ -31,7 +31,10 @@
         "@pika/plugin-build-web"
       ],
       [
-        "@pika/plugin-build-types"
+        "@pika/plugin-build-types",
+        {
+          "tsconfig": "./tsconfig.types.json"
+        }
       ]
     ]
   },
