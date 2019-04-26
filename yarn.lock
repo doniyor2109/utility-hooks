@@ -748,11 +748,6 @@
   resolved "https://registry.yarnpkg.com/@dc0de/eslint-config/-/eslint-config-0.5.7.tgz#6281e6a21d8c60e540deb08c9405e7945ef9169c"
   integrity sha512-sjMyF8XHAT/9rG0qssro5GJ2yJkyhfKMLS9l2vtp3PAJy+BNSrJscQCzEN7xtbYg0YQwK6EJ+IhniBt//AsEpg==
 
-"@dc0de/jest-preset@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@dc0de/jest-preset/-/jest-preset-0.0.8.tgz#c5234603dce66c3297571095718324d601680e84"
-  integrity sha512-ypqTlt1ETMlEifNcaGnpxZPBgW7IofL24It8ub2WbCyqKNECrva/dSXqIEzg979wmqHnXAZlH3a0R/30a752PA==
-
 "@jest/console@^24.7.1":
   version "24.7.1"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.7.1.tgz#32a9e42535a97aedfe037e725bd67e954b459545"
@@ -1348,11 +1343,6 @@ axobject-query@^2.0.2:
   integrity sha512-MCeek8ZH7hKyO1rWUbKNQBbl4l2eY0ntk7OGi+q0RlafrCnfPxC06WZA+uebCfmYp4mNU9jRBP1AhGyf8+W3ww==
   dependencies:
     ast-types-flow "0.0.7"
-
-babel-core@^7.0.0-bridge.0:
-  version "7.0.0-bridge.0"
-  resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
-  integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
 
 babel-jest@^24.7.1:
   version "24.7.1"
@@ -3127,28 +3117,6 @@ jest-changed-files@^24.7.0:
   dependencies:
     "@jest/types" "^24.7.0"
     execa "^1.0.0"
-    throat "^4.0.0"
-
-jest-circus@^24.7.1:
-  version "24.7.1"
-  resolved "https://registry.yarnpkg.com/jest-circus/-/jest-circus-24.7.1.tgz#f8dc4db5217eb010d71ad2f5b6e6f357590ccd01"
-  integrity sha512-zDNSS+7qQN0nSbR77qcOb+tOUWLcvZGzvXE1PjoV6xeHV5Vz7DPK9JkBIQF/n5Nz9yZbApDxq5NqGqmVCe0nnQ==
-  dependencies:
-    "@babel/traverse" "^7.1.0"
-    "@jest/environment" "^24.7.1"
-    "@jest/test-result" "^24.7.1"
-    "@jest/types" "^24.7.0"
-    chalk "^2.0.1"
-    co "^4.6.0"
-    expect "^24.7.1"
-    is-generator-fn "^2.0.0"
-    jest-each "^24.7.1"
-    jest-matcher-utils "^24.7.0"
-    jest-message-util "^24.7.1"
-    jest-snapshot "^24.7.1"
-    jest-util "^24.7.1"
-    pretty-format "^24.7.0"
-    stack-utils "^1.0.1"
     throat "^4.0.0"
 
 jest-cli@^24.7.1:
