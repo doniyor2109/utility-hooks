@@ -1,7 +1,6 @@
 {
   "include": ["src"],
   "compilerOptions": {
-    "jsx": "react",
     "lib": ["dom", "es2018"],
     "moduleResolution": "node",
     "strict": true,
