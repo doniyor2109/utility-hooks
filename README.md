@@ -18,12 +18,31 @@
 
 Unlike `useCallback`, `useCallbackProxy` does not accept second argument and stores original `callback` in ref.
 
-```javascript
-function LoginForm({ onSubmit }) {
-  const handleSubmit = useCallbackProxy(onSubmit);
+```diff
+ function Form() {
+   const [text, updateText] = useState("");
+-  const textRef = useRef();
+-
+-  useEffect(() => {
+-    textRef.current = text; // Write it to the ref
+-  });
+-
+-  const handleSubmit = useCallback(() => {
+-    const currentText = textRef.current; // Read it from the ref
+-    alert(currentText);
+-  }, [textRef]); // Don't recreate handleSubmit like [text] would do
++  const handleSubmit = useCallbackProxy(() => {
++    alert(text);
++  });
 
-  return <Form onSubmit={handleSubmit} />;
-}
+   return (
+     <>
+       <input value={text} onChange={e => updateText(e.target.value)} />
+       <ExpensiveTree onSubmit={handleSubmit} />
+     </>
+   );
+ }
+
 ```
 
 #### `useMemoOnce(factory)`
@@ -32,28 +51,54 @@ function LoginForm({ onSubmit }) {
 
 Runs factory only once and writes value in component `ref`.
 
-```javascript
-function RenderTime() {
-  const renderTime = useMemoOnce(() => new Date());
+```diff
+ function Image(props) {
+-  const ref = useRef(null);
+   const node = useRef();
+-
+-  // ✅ IntersectionObserver is created lazily once
+-  function getObserver() {
+-    let observer = ref.current;
+-    if (observer !== null) {
+-      return observer;
+-    }
+-    let newObserver = new IntersectionObserver(onIntersect);
+-    ref.current = newObserver;
+-    return newObserver;
+-  }
++  const observer = useMemoOnce(() => new IntersectionObserver(onIntersect));
 
-  return <>{renderTime.toDateString()}</>;
-}
+   useEffect(() => {
+-    getObserver().observe(node.current);
++    observer.observe(node.current);
+   }, [observer]);
+ }
 ```
 
 #### `useMemoWith(factory, isEqual, deps)`
 
+> Inspired by [Gist](https://gist.github.com/kentcdodds/fb8540a05c43faf636dd68647747b074#gistcomment-2830503).
+
 Compares each dependency with `isEqual` function to memoize value from `factory`.
 
-```javascript
-function LoginForm({ user }) {
-  const initialValues = useMemoWith(
-    () => ({ email: user.email, phone: user.phone }),
-    (a, b) => a === b || (a.email === b.email && a.phone === b.phone),
-    [user],
-  );
+```diff
+ export function useFetch(url, options) {
+-  const cachedOptionsRef = useRef();
+-
+-  if (
+-    !cachedOptionsRef.current ||
+-    !_.isEqual(options, cachedOptionsRef.current)
+-  ) {
+-    cachedOptionsRef.current = options;
+-  }
++  const cachedOptions = useMemoWith(() => options, _.isEqual, [options]);
 
-  return <Form initialValues={initialValues} />;
-}
+   useEffect(() => {
+     // Perform fetch
+-  }, [url, cachedOptionsRef.current]);
++  }, [url, cachedOptions]);
+ }
+
 ```
 
 #### `useValueRef(value)`
