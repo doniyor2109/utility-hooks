@@ -101,6 +101,33 @@ Compares each dependency with `isEqual` function to memoize value from `factory`
 
 ```
 
+#### `usePrevious(value)`
+
+> Inspired by [How to get the previous props or state?](https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state)
+
+Works like `useRef`, buy updates `ref` on every call.
+
+```diff
+ function Counter() {
+-  const prevCountRef = useRef();
+   const [count, setCount] = useState(0);
+-
+-  useEffect(() => {
+-    prevCountRef.current = count;
+-  });
++  const prevCount = usePrevious(count);
+
+   return (
+     <h1>
+-      Now: {count}, before: {prevCountRef.current}
++      Now: {count}, before: {prevCount}
+     </h1>
+   );
+ }
+
+
+```
+
 #### `useValueRef(value)`
 
 > Inspired by [How to read an often-changing value from useCallback?](https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback)
