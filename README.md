@@ -16,9 +16,7 @@
 
 > Inspired by [How to read an often-changing value from useCallback?](https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback)
 
-Unlike `useCallback`, `useCallbackProxy` does not accept second argument, so it updates only in `useEffect` call.
-
-> This can lead to unexpected bugs in function closures when called before `useEffect` trigger.
+Unlike `useCallback`, `useCallbackProxy` does not accept second argument and stores original `callback` in ref.
 
 ```javascript
 function LoginForm({ onSubmit }) {
@@ -55,6 +53,36 @@ function LoginForm({ user }) {
   );
 
   return <Form initialValues={initialValues} />;
+}
+```
+
+#### `useValueRef(value)`
+
+> Inspired by [How to read an often-changing value from useCallback?](https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback)
+
+Works like `useRef`, buy updates `ref` on every call.
+
+```diff
+function Form() {
+  const [text, updateText] = useState('');
++  const textRef = useValueRef(text);
+-  const textRef = useRef();
+-
+- useEffect(() => {
+-   textRef.current = text; // Write it to the ref
+- });
+
+  const handleSubmit = useCallback(() => {
+    const currentText = textRef.current; // Read it from the ref
+    alert(currentText);
+  }, [textRef]); // Don't recreate handleSubmit like [text] would do
+
+  return (
+    <>
+      <input value={text} onChange={e => updateText(e.target.value)} />
+      <ExpensiveTree onSubmit={handleSubmit} />
+    </>
+  );
 }
 ```
 
