@@ -6,6 +6,7 @@
   "repository": "git@github.com:umidbekkarimov/utility-hooks.git",
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "scripts": {
+    "pub": "yarn pika-pack publish",
     "ci": "yarn lint && yarn tsc && yarn cover && yarn build",
     "lint": "cg lint",
     "test": "jest",
