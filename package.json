@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "name": "utility-hooks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Collection of low-level React hooks.",
   "repository": "git@github.com:umidbekkarimov/utility-hooks.git",
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
