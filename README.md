@@ -105,7 +105,7 @@ Compares each dependency with `isEqual` function to memoize value from `factory`
 
 > Inspired by [How to get the previous props or state?](https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state)
 
-Works like `useRef`, buy updates `ref` on every call.
+Stores `value` used in previous render.
 
 ```diff
  function Counter() {
@@ -132,7 +132,7 @@ Works like `useRef`, buy updates `ref` on every call.
 
 > Inspired by [How to read an often-changing value from useCallback?](https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback)
 
-Works like `useRef`, buy updates `ref` on every call.
+Works like `useRef`, but keeps it's `ref` in sync with `value` on every call.
 
 ```diff
 function Form() {
