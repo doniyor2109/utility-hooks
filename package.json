@@ -60,7 +60,7 @@
     "@types/react": "^16.8.14",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
-    "code-guard": "^0.0.9",
+    "code-guard": "^0.1.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
