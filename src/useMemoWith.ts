@@ -5,8 +5,8 @@ import { usePrevious } from "./usePrevious";
 
 export function useMemoWith<T>(
   factory: () => T,
-  isEqual: Comparator,
   deps: DependencyList,
+  isEqual: Comparator,
 ): T {
   const prevDepsRef = usePrevious(deps);
   const valueRef = useRef<T | null>(null);

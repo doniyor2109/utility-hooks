@@ -15,7 +15,7 @@ it("compares dependencies with custom comparator", () => {
   const value3 = new Date(10);
 
   const { result, rerender } = renderHook(
-    ({ value }) => useMemoWith(() => value, isEqualDate, [value]),
+    ({ value }) => useMemoWith(() => value, [value], isEqualDate),
     { initialProps: { value: value1 } },
   );
 
