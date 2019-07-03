@@ -5,6 +5,7 @@ it("exposes public api", () => {
     Object {
       "areDepsEqualWith": [Function],
       "useCallbackProxy": [Function],
+      "useConstant": [Function],
       "useMemoOnce": [Function],
       "useMemoWith": [Function],
       "usePrevious": [Function],

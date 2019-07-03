@@ -1,5 +1,5 @@
-import { renderHook } from "react-hooks-testing-library";
-import { cleanup } from "react-testing-library";
+import { cleanup } from "@testing-library/react";
+import { renderHook } from "@testing-library/react-hooks";
 
 import { useMemoWith } from "../useMemoWith";
 
