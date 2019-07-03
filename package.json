@@ -12,7 +12,8 @@
     "test": "jest",
     "tdd": "jest --watch",
     "cover": "jest --coverage",
-    "build": "yarn pika-pack build"
+    "build": "yarn pika-pack build",
+    "version": "yarn build"
   },
   "@pika/pack": {
     "pipeline": [
