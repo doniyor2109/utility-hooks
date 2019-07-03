@@ -45,7 +45,7 @@ Unlike `useCallback`, `useCallbackProxy` does not accept second argument and sto
 
 ```
 
-#### `useMemoOnce(factory)`
+#### `useConstant(factory)`
 
 > Inspired by [How to create expensive objects lazily?](https://reactjs.org/docs/hooks-faq.html#how-to-create-expensive-objects-lazily)
 
@@ -66,7 +66,7 @@ Runs factory only once and writes value in component `ref`.
 -    ref.current = newObserver;
 -    return newObserver;
 -  }
-+  const observer = useMemoOnce(() => new IntersectionObserver(onIntersect));
++  const observer = useConstant(() => new IntersectionObserver(onIntersect));
 
    useEffect(() => {
 -    getObserver().observe(node.current);
