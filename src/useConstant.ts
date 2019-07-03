@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-export function useMemoOnce<T>(factory: () => T): T {
+export function useConstant<T>(factory: () => T): T {
   const ref = useRef<T>();
 
   if (ref.current === undefined) {
@@ -9,3 +9,6 @@ export function useMemoOnce<T>(factory: () => T): T {
 
   return ref.current;
 }
+
+/** @deprecated Renamed to `useConstant`.  */
+export const useMemoOnce = useConstant;
