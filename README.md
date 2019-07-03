@@ -115,7 +115,7 @@ Compares each dependency with `isEqual` function to memoize value from `factory`
  }
 ```
 
-#### usePrevious(value)`
+#### `usePrevious(value)`
 
 > Inspired by [How to get the previous props or state?](https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state)
 
