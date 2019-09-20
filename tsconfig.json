@@ -1,12 +1,4 @@
 {
   "include": ["src"],
-  "compilerOptions": {
-    "noEmit": true,
-    "lib": ["dom", "es2018"],
-    "moduleResolution": "node",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowSyntheticDefaultImports": true
-  }
+  "extends": "@superdispatch/tsconfig"
 }
