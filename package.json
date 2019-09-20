@@ -7,12 +7,12 @@
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "scripts": {
     "build": "yarn pika build",
-    "prebump": "yarn lint && yarn tsc && yarn cover && yarn build",
+    "prebump": "yarn lint && yarn tsc && yarn test && yarn build",
     "bump": "yarn pika publish --no-publish",
-    "cover": "jest --coverage",
     "coveralls": "cat coverage/lcov.info | coveralls",
     "lint": "js-tools lint",
     "tdd": "jest --watch",
+    "test": "jest --coverage",
     "version": "yarn build"
   },
   "devDependencies": {

@@ -37,7 +37,7 @@ jobs:
       - run:
           name: Test
           command: |
-            yarn cover
+            yarn test
             yarn coveralls
       - run:
           name: Build
