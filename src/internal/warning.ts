@@ -20,3 +20,14 @@ export function warning(
     );
   } catch {}
 }
+
+const shownDeprecatedMessages: Record<string, true> = {};
+
+export function deprecated(message: string): void {
+  if (shownDeprecatedMessages[message]) {
+    return;
+  }
+
+  shownDeprecatedMessages[message] = true;
+  warning(false, message, []);
+}

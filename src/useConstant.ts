@@ -1,5 +1,7 @@
 import { useRef } from "react";
 
+import { deprecated } from "./internal/warning";
+
 export function useConstant<T>(factory: () => T): T {
   const ref = useRef<T>();
 
@@ -11,4 +13,8 @@ export function useConstant<T>(factory: () => T): T {
 }
 
 /** @deprecated Renamed to `useConstant`.  */
-export const useMemoOnce = useConstant;
+export function useMemoOnce<T>(factory: () => T): T {
+  deprecated("`useMemoOnce` is renamed to `useConstant`.");
+
+  return useConstant(factory);
+}
