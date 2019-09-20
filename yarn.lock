@@ -907,7 +907,7 @@
   resolved "https://registry.yarnpkg.com/@pika/babel-plugin-esm-import-rewrite/-/babel-plugin-esm-import-rewrite-0.3.16.tgz#884aa5ca51f1727e0a932eca8602b6a99e0aa163"
   integrity sha512-1CzhjFElpe4EkQqZzd/CKLLMj/tIluKb/bY7O76EqXkaEg+HU54ruvIKKMje5qq2cnHyRk1FeIq1dJz5JITjJQ==
 
-"@pika/cli@latest":
+"@pika/cli@^0.2.0", "@pika/cli@latest":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@pika/cli/-/cli-0.2.0.tgz#8e76791c8b4289a82c4943a0110c713198317e24"
   integrity sha512-DUWKfjpwXPGQlnYok2lqOLYuirTteEkXnLOWVYXAuS76BJv1dgCZkWG/tnLMb1DB7Xd4vtyp96/ajmfYceD2gQ==
