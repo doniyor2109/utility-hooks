@@ -36,7 +36,7 @@ jobs:
             yarn lint --quiet
       - run:
           name: Test
-          command: jest --coverage
+          command: yarn cover
       - run:
           name: Build
           command: yarn build
