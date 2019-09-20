@@ -12,11 +12,11 @@
 
 ### Hooks
 
-#### `useCallbackProxy(callback)`
+#### `useEventCallback(callback)`
 
 > Inspired by [How to read an often-changing value from useCallback?](https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback)
 
-Unlike `useCallback`, `useCallbackProxy` does not accept second argument and stores original `callback` in ref.
+Unlike `useCallback`, `useEventCallback` does not accept second argument and stores original `callback` in ref.
 
 ```diff
  function Form() {
@@ -31,7 +31,7 @@ Unlike `useCallback`, `useCallbackProxy` does not accept second argument and sto
 -    const currentText = textRef.current; // Read it from the ref
 -    alert(currentText);
 -  }, [textRef]); // Don't recreate handleSubmit like [text] would do
-+  const handleSubmit = useCallbackProxy(() => {
++  const handleSubmit = useEventCallback(() => {
 +    alert(text);
 +  });
 

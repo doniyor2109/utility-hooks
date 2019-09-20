@@ -1,7 +1,7 @@
 export * from "./areDepsEqualWith";
 
-export * from "./useCallbackProxy";
-export * from "./useMemoWith";
 export * from "./useConstant";
+export * from "./useEventCallback";
+export * from "./useMemoWith";
 export * from "./usePrevious";
 export * from "./useValueRef";
