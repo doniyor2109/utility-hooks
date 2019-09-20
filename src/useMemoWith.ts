@@ -1,6 +1,6 @@
 import { DependencyList, useRef } from "react";
 
-import { Comparator, areDepsEqualWith } from "./areDepsEqualWith";
+import { areDepsEqualWith, Comparator } from "./areDepsEqualWith";
 import { usePrevious } from "./usePrevious";
 
 export function useMemoWith<T>(

@@ -9,11 +9,11 @@ it("runs memoize only once", () => {
   const factory = jest.fn(() => Math.random());
   const { result, rerender } = renderHook(() => useConstant(factory));
 
-  expect(factory).toBeCalledTimes(1);
-  expect(factory).lastReturnedWith(result.current);
+  expect(factory).toHaveBeenCalledTimes(1);
+  expect(factory).toHaveLastReturnedWith(result.current);
 
   rerender();
 
-  expect(factory).toBeCalledTimes(1);
-  expect(factory).lastReturnedWith(result.current);
+  expect(factory).toHaveBeenCalledTimes(1);
+  expect(factory).toHaveLastReturnedWith(result.current);
 });

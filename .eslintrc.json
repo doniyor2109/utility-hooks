@@ -10,7 +10,15 @@
       "extends": [
         "plugin:@superdispatch/react",
         "plugin:@superdispatch/typescript"
-      ]
+      ],
+      "rules": {
+        "react-hooks/exhaustive-deps": [
+          "error",
+          {
+            "additionalHooks": "^(useMemoWith)$"
+          }
+        ]
+      }
     },
     {
       "files": ["**/__tests__/**/*.ts", "**/__tests__/**/*.ts"],
