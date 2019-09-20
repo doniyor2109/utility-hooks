@@ -10,6 +10,7 @@ export function areDepsEqualWith(
   prevDeps: DependencyList,
   isEqual: Comparator,
 ): boolean {
+  /* istanbul ignore next */
   if (process.env.NODE_ENV === "production") {
     warning(
       nextDeps.length !== prevDeps.length,

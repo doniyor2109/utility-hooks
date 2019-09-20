@@ -12,6 +12,7 @@ export function useConstant<T>(factory: () => T): T {
   return ref.current;
 }
 
+/* istanbul ignore next */
 /** @deprecated Renamed to `useConstant`.  */
 export function useMemoOnce<T>(factory: () => T): T {
   deprecated("`useMemoOnce` is renamed to `useConstant`.");

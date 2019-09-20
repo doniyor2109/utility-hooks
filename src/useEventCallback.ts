@@ -11,6 +11,8 @@ export function useEventCallback<T extends (...args: any[]) => any>(
   return useCallback(((...args) => callbackRef.current(...args)) as T, []);
 }
 
+/* istanbul ignore next */
+/** @deprecated Renamed to `useEventCallback`. */
 export function useCallbackProxy<T extends (...args: any[]) => any>(
   callback: T,
 ): T {
