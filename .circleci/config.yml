@@ -36,7 +36,9 @@ jobs:
             yarn lint --quiet
       - run:
           name: Test
-          command: yarn cover
+          command: |
+            yarn cover
+            yarn coveralls
       - run:
           name: Build
           command: yarn build
