@@ -53,11 +53,10 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          name: Login to NPM
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
-      - run:
           name: Publish to NPM
-          command: npm publish pkg
+          command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
+            npm publish pkg
 
 workflows:
   version: 2
