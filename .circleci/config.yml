@@ -11,17 +11,16 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - yarn-{{ checksum "yarn.lock" }}
-            - yarn-
+            - yarn
 
       - run:
           name: Install Dependencies
-          command: yarn install --frozen-lockfile
+          command: yarn install
 
       - save_cache:
           paths:
             - ~/.cache/yarn
-          key: yarn-{{ checksum "yarn.lock" }}
+          key: yarn
 
 jobs:
   build:
@@ -75,3 +74,13 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+  scheduled:
+    jobs:
+      - build
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
