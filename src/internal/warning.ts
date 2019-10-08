@@ -19,7 +19,7 @@ export function warning(
     throw new Error(
       `Warning: ${format.replace(/%s/g, () => args[argIndex++] as string)}`,
     );
-  } catch {}
+  } catch (e) {}
 }
 
 const shownDeprecatedMessages: Record<string, true> = {};
