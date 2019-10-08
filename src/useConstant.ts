@@ -1,11 +1,15 @@
 import { useRef } from "react";
 
-export function useConstant<T>(factory: () => T): T {
-  const ref = useRef<T>();
+interface ValueNode<T> {
+  value: T;
+}
 
-  if (ref.current === undefined) {
-    ref.current = factory();
+export function useConstant<T>(factory: () => T): T {
+  const ref = useRef<ValueNode<T>>();
+
+  if (!ref.current) {
+    ref.current = { value: factory() };
   }
 
-  return ref.current;
+  return ref.current.value;
 }
