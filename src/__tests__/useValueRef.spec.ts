@@ -6,23 +6,20 @@ import { useValueRef } from "../useValueRef";
 afterEach(cleanup);
 
 it("stores and updates value in ref", () => {
-  const value1 = new Date(0);
-  const value2 = new Date(0);
-  const value3 = new Date(0);
+  const values = [{}, {}, {}];
 
   const { result, rerender } = renderHook(({ value }) => useValueRef(value), {
-    initialProps: { value: value1 },
+    initialProps: { value: values[0] },
   });
 
-  const ref = result.current;
+  expect(result.current.current).toBe(values[0]);
 
-  expect(result.current.current).toBe(value1);
+  values.forEach((value, idx) => {
+    if (idx === 0) {
+      return;
+    }
 
-  rerender({ value: value2 });
-  expect(result.current).toBe(ref);
-  expect(result.current.current).toBe(value2);
-
-  rerender({ value: value3 });
-  expect(result.current).toBe(ref);
-  expect(result.current.current).toBe(value3);
+    rerender({ value });
+    expect(result.current.current).toBe(value);
+  });
 });

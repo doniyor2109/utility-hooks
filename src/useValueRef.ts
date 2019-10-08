@@ -1,12 +1,11 @@
-import { MutableRefObject, useRef } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 
 export function useValueRef<T>(value: T): MutableRefObject<T> {
-  const valueRef = useRef(value);
+  const ref = useRef(value);
 
-  // Update ref if it changed.
-  if (valueRef.current !== value) {
-    valueRef.current = value;
-  }
+  useEffect(() => {
+    ref.current = value;
+  });
 
-  return valueRef;
+  return ref;
 }
