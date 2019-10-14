@@ -9,6 +9,7 @@ it("exposes public api", () => {
       "useMemoWith": [Function],
       "usePrevious": [Function],
       "useValueRef": [Function],
+      "useWhenValueChanges": [Function],
     }
   `);
 });

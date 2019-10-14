@@ -172,6 +172,35 @@ function Form() {
 }
 ```
 
+#### `useWhenValueChanges(value, effect, isEqual)`
+
+Works like `useEffect`, but runs effect only when `value` compared by `isEqual` (`Object.is` if not provided). It also passes the previous `value` as an effect argument.
+
+```diff
+function List({ disptach, page, selectedId }) {
+-  const isInitial = useRef(true);
+  useEffect(() => {
+-    isInitial.current = true;
+    dispatch({ type: "FETCH_LIST", page });
+  }, [page, dispatch]);
+  useEffect(() => {
+    dispatch({ type: "FETCH_ITEM", id: selectedId });
+  }, [selectedId, dispatch]);
+-  useEffect(() => {
+-    if (isInitial.current) {
+-      isInitial.current = false;
+-    } else if (!selectedId) {
+-      dispatch({ type: "FETCH_LIST", page });
+-    }
+-  }, [page, selectedId, dispatch]);
++  useWhenValueChanges(selectedId, () => {
++    if (!selectedId) {
++      dispatch({ type: "FETCH_LIST", page });
++    }
++  });
+}
+```
+
 ### Utilities
 
 #### `areDepsEqualWith(hookName, nextDeps, prevDeps, isEqual)`

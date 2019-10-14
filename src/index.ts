@@ -5,3 +5,4 @@ export * from "./useEventCallback";
 export * from "./useMemoWith";
 export * from "./usePrevious";
 export * from "./useValueRef";
+export * from "./useWhenValueChanges";
