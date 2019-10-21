@@ -6,7 +6,7 @@
   "overrides": [
     { "files": "*.js", "extends": "plugin:@superdispatch/node" },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": "*.{ts,tsx}",
       "extends": [
         "plugin:@superdispatch/react",
         "plugin:@superdispatch/typescript"
@@ -14,15 +14,23 @@
       "rules": {
         "react-hooks/exhaustive-deps": [
           "error",
-          {
-            "additionalHooks": "^(useMemoWith)$"
-          }
+          { "additionalHooks": "^(useMemoWith)$" }
         ]
       }
     },
     {
-      "files": ["**/__tests__/**/*.ts", "**/__tests__/**/*.ts"],
+      "files": "**/__tests__/**/*.{ts,tsx}",
       "extends": "plugin:@superdispatch/jest"
+    },
+    {
+      "files": "*",
+      "rules": {
+        "quotes": [
+          "error",
+          "double",
+          { "avoidEscape": true, "allowTemplateLiterals": false }
+        ]
+      }
     }
   ]
 }
