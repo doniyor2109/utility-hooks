@@ -10,6 +10,30 @@
 [![Coverage Status](https://coveralls.io/repos/github/umidbekkarimov/utility-hooks/badge.svg)](https://coveralls.io/github/umidbekkarimov/utility-hooks)
 [![npm license](https://img.shields.io/npm/l/utility-hooks.svg)](https://npmjs.com/utility-hooks)
 
+### Installation
+
+```bash
+npm install utility-hooks
+```
+
+### Environment compatibility
+
+`utility-hooks` output uses modern browser features, all extra transpilations and polyfills should be done in application side.
+
+### Static checking with `react-hooks/exhaustive-deps`
+
+```diff
+ {
+-  "react-hooks/exhaustive-deps": ["warn"]
++  "react-hooks/exhaustive-deps": [
++    "warn",
++    {
++      "additionalHooks": "^(useMemoWith|usePromise)$"
++    }
++  ]
+ }
+```
+
 ### Hooks
 
 #### `useEventCallback(callback)`
@@ -101,20 +125,6 @@ Compares each dependency with `isEqual` function to memoize value from `factory`
 
 ```
 
-##### Static checking with `react-hooks/exhaustive-deps`
-
-```diff
- {
--  "react-hooks/exhaustive-deps": ["warn"]
-+  "react-hooks/exhaustive-deps": [
-+    "warn",
-+    {
-+      "additionalHooks": "^(useMemoWith|useAnyOtherHook)$"
-+    }
-+  ]
- }
-```
-
 #### `usePrevious(value)`
 
 > Inspired by [How to get the previous props or state?](https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state)
@@ -138,8 +148,42 @@ Stores `value` used in previous render.
      </h1>
    );
  }
+```
 
+#### `usePromise(factory, deps)`
 
+Handles loading of promises created by `factory` function.
+
+```diff
+const [filter, setFilter] = useState('')
+- const [value, setValue] = useState();
+- const [error, setError] = useState()
+- useEffect(() => {
+-   const controller = new AbortController();
+-   const runEffect = async () => {
+-     try {
+-       const value = await fetch(
+-         "https://foo.bars/api?filter=" + filter,
+-         { signal: controller.signal }
+-       );
+-
+-       setValue(value);
+-     } catch (error) {
+-       if (err.name === 'AbortError') {
+-         console.log("Request was canceled via controller.abort");
+-         return;
+-       }
+-
+-       setError(error)
+-     }
+-   };
+-   runEffect();
+-   return () => controller.abort()
+- }, [filter]);
++ const { value, error } = usePromise(({ abortSignal }) => fetch(
++  "https://foo.bars/api?filter=" + filter,
++   { signal: abortSignal }
++ ), [filter])
 ```
 
 #### `useValueRef(value)`

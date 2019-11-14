@@ -14,13 +14,16 @@
       "rules": {
         "react-hooks/exhaustive-deps": [
           "error",
-          { "additionalHooks": "^(useMemoWith)$" }
+          { "additionalHooks": "^(useMemoWith|usePromise)$" }
         ]
       }
     },
     {
       "files": "**/__tests__/**/*.{ts,tsx}",
-      "extends": "plugin:@superdispatch/jest"
+      "extends": "plugin:@superdispatch/jest",
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
     },
     {
       "files": "*",

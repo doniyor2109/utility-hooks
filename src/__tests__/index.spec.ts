@@ -8,6 +8,7 @@ it("exposes public api", () => {
       "useEventCallback": [Function],
       "useMemoWith": [Function],
       "usePrevious": [Function],
+      "usePromise": [Function],
       "useValueRef": [Function],
       "useWhenValueChanges": [Function],
     }
