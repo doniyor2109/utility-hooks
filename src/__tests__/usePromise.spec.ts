@@ -1,120 +1,20 @@
 import { cleanup } from "@testing-library/react";
-import { act, renderHook } from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react-hooks";
 
 import { usePromise } from "../usePromise";
 
-class TestPromise implements Promise<string> {
-  readonly [Symbol.toStringTag]: string;
-
-  private fulfillHandlers: Set<(value: string) => void>;
-  private rejectHandlers: Set<(error: Error) => void>;
-  private finallyHandlers: Set<() => void>;
-
-  constructor() {
-    this.rejectHandlers = new Set();
-    this.fulfillHandlers = new Set();
-    this.finallyHandlers = new Set();
-  }
-
-  then<TResult1 = string, TResult2 = never>(
-    onFulfilled?:
-      | null
-      | undefined
-      | ((value: string) => PromiseLike<TResult1> | TResult1),
-    onRejected?:
-      | null
-      | undefined
-      | ((reason: Error) => PromiseLike<TResult2> | TResult2),
-  ): Promise<TResult1 | TResult2> {
-    if (onFulfilled) {
-      this.fulfillHandlers.add(onFulfilled);
-    }
-
-    if (onRejected) {
-      this.rejectHandlers.add(onRejected);
-    }
-
-    return this as any;
-  }
-
-  catch<TResult = never>(
-    onRejected?:
-      | null
-      | undefined
-      | ((reason: Error) => PromiseLike<TResult> | TResult),
-  ): Promise<string | TResult> {
-    if (onRejected) {
-      this.rejectHandlers.add(onRejected);
-    }
-
-    return this;
-  }
-
-  finally(onfinally?: (() => void) | undefined | null): Promise<string> {
-    if (onfinally) {
-      this.finallyHandlers.add(onfinally);
-    }
-
-    return this;
-  }
-
-  private finalize() {
-    this.finallyHandlers.forEach(fn => fn());
-
-    this.rejectHandlers.clear();
-    this.finallyHandlers.clear();
-    this.fulfillHandlers.clear();
-  }
-
-  resolve(result: string) {
-    this.fulfillHandlers.forEach(fn => fn(result));
-    this.finalize();
-  }
-
-  reject(error: Error) {
-    this.rejectHandlers.forEach(fn => fn(error));
-    this.finalize();
-  }
-}
-
-class TestAPI {
-  private cache: Map<number, TestPromise>;
-
-  constructor() {
-    this.cache = new Map();
-  }
-
-  private ensurePromise(id: number) {
-    let cached = this.cache.get(id);
-
-    if (!cached) {
-      cached = new TestPromise();
-      this.cache.set(id, cached);
-    }
-
-    return cached;
-  }
-
-  fetch(id: number): TestPromise {
-    return this.ensurePromise(id);
-  }
-
-  resolve(id: number, value: string) {
-    return this.ensurePromise(id).resolve(value);
-  }
-
-  reject(id: number, error: Error) {
-    return this.ensurePromise(id).reject(error);
-  }
-}
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 afterEach(cleanup);
 
-it("fulfills value", () => {
-  const api = new TestAPI();
+it("fulfills value", async () => {
+  const { result, waitForNextUpdate } = renderHook(
+    ({ id }) =>
+      usePromise(async () => {
+        await wait(id * 100);
 
-  const { result } = renderHook(
-    ({ id }) => usePromise(() => api.fetch(id), [id]),
+        return { id };
+      }, [id]),
     { initialProps: { id: 1 } },
   );
 
@@ -124,24 +24,22 @@ it("fulfills value", () => {
     }
   `);
 
-  act(() => api.resolve(1, "foo"));
+  await waitForNextUpdate();
 
   expect(result.current).toMatchInlineSnapshot(`
     Object {
       "status": "fulfilled",
-      "value": "foo",
+      "value": Object {
+        "id": 1,
+      },
     }
   `);
 });
 
-it("rejects value", () => {
-  const api = new TestAPI();
-
-  const { result } = renderHook(
-    ({ id }) => usePromise(() => api.fetch(id), [id]),
-    {
-      initialProps: { id: 1 },
-    },
+it("rejects value", async () => {
+  const { result, waitForNextUpdate } = renderHook(
+    ({ id }) => usePromise(() => Promise.reject(new Error(`ID: ${id}`)), [id]),
+    { initialProps: { id: 1 } },
   );
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -150,21 +48,19 @@ it("rejects value", () => {
     }
   `);
 
-  act(() => api.reject(1, new Error("nope")));
+  await waitForNextUpdate();
 
   expect(result.current).toMatchInlineSnapshot(`
     Object {
-      "error": [Error: nope],
+      "error": [Error: ID: 1],
       "status": "rejected",
     }
   `);
 });
 
-it("resets state on deps change", () => {
-  const api = new TestAPI();
-
-  const { result, rerender } = renderHook(
-    ({ id }) => usePromise(() => api.fetch(id), [id]),
+it("resets state on deps change", async () => {
+  const { unmount, result, rerender, waitForNextUpdate } = renderHook(
+    ({ id }) => usePromise(() => Promise.resolve({ id }), [id]),
     { initialProps: { id: 1 } },
   );
 
@@ -174,12 +70,14 @@ it("resets state on deps change", () => {
     }
   `);
 
-  act(() => api.resolve(1, "foo"));
+  await waitForNextUpdate();
 
   expect(result.current).toMatchInlineSnapshot(`
     Object {
       "status": "fulfilled",
-      "value": "foo",
+      "value": Object {
+        "id": 1,
+      },
     }
   `);
 
@@ -190,14 +88,14 @@ it("resets state on deps change", () => {
       "status": "pending",
     }
   `);
+
+  unmount();
 });
 
-it("ignores previously called promises", () => {
-  const api = new TestAPI();
-
-  const { result, rerender } = renderHook(
-    ({ id }) => usePromise(() => api.fetch(id), [id]),
-    { initialProps: { id: 1 } },
+it("ignores previously called promises", async () => {
+  const { result, rerender, waitForNextUpdate } = renderHook(
+    ({ delay }) => usePromise(() => wait(delay).then(() => delay), [delay]),
+    { initialProps: { delay: 300 } },
   );
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -206,7 +104,7 @@ it("ignores previously called promises", () => {
     }
   `);
 
-  rerender({ id: 2 });
+  rerender({ delay: 200 });
 
   expect(result.current).toMatchInlineSnapshot(`
     Object {
@@ -214,7 +112,7 @@ it("ignores previously called promises", () => {
     }
   `);
 
-  rerender({ id: 3 });
+  rerender({ delay: 100 });
 
   expect(result.current).toMatchInlineSnapshot(`
     Object {
@@ -222,28 +120,22 @@ it("ignores previously called promises", () => {
     }
   `);
 
-  act(() => api.resolve(3, "baz"));
+  await waitForNextUpdate();
 
   const finalValue = result.current;
 
   expect(finalValue).toMatchInlineSnapshot(`
     Object {
       "status": "fulfilled",
-      "value": "baz",
+      "value": 100,
     }
   `);
 
-  act(() => api.resolve(2, "bar"));
-
   expect(result.current).toBe(finalValue);
-
-  act(() => api.resolve(1, "foo"));
-
   expect(result.current).toBe(finalValue);
 });
 
 it("provides abort signal", () => {
-  const api = new TestAPI();
   const signals: AbortSignal[] = [];
 
   const { rerender, unmount } = renderHook(
@@ -252,7 +144,7 @@ it("provides abort signal", () => {
         ({ abortSignal }) => {
           signals.push(abortSignal);
 
-          return api.fetch(id);
+          return Promise.resolve({ id });
         },
         [id],
       ),
@@ -275,23 +167,13 @@ it("provides abort signal", () => {
   expect(signals[1].aborted).toBe(true);
 });
 
-it("does't run request when hook is skipped", () => {
-  const api = new TestAPI();
-  const fetch = jest.fn(() => api.fetch(1));
+it("does't run request when hook is skipped", async () => {
+  const fetch = jest.fn(() => Promise.resolve({ id: 1 }));
 
-  const { result, rerender } = renderHook(
+  const { result, rerender, waitForNextUpdate } = renderHook(
     ({ skip }) => usePromise(fetch, [], { skip }),
     { initialProps: { skip: true } },
   );
-
-  expect(fetch).not.toHaveBeenCalled();
-  expect(result.current).toMatchInlineSnapshot(`
-    Object {
-      "status": "pending",
-    }
-  `);
-
-  act(() => api.resolve(1, "foo"));
 
   expect(fetch).not.toHaveBeenCalled();
   expect(result.current).toMatchInlineSnapshot(`
@@ -309,28 +191,29 @@ it("does't run request when hook is skipped", () => {
     }
   `);
 
-  act(() => api.resolve(1, "foo"));
+  await waitForNextUpdate();
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(result.current).toMatchInlineSnapshot(`
     Object {
       "status": "fulfilled",
-      "value": "foo",
+      "value": Object {
+        "id": 1,
+      },
     }
   `);
 });
 
 it("aborts pending request on skip", () => {
-  const api = new TestAPI();
   const abortSignals: AbortSignal[] = [];
 
-  const { rerender } = renderHook(
+  const { rerender, unmount } = renderHook(
     ({ skip }) =>
       usePromise(
         ({ abortSignal }) => {
           abortSignals.push(abortSignal);
 
-          return api.fetch(1);
+          return Promise.resolve({ id: 1 });
         },
         [],
         { skip },
@@ -351,4 +234,6 @@ it("aborts pending request on skip", () => {
   expect(abortSignals).toHaveLength(2);
   expect(abortSignals[0].aborted).toBe(true);
   expect(abortSignals[1].aborted).toBe(false);
+
+  unmount();
 });
