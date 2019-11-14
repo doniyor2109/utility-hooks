@@ -274,3 +274,81 @@ it("provides abort signal", () => {
   expect(signals[0].aborted).toBe(true);
   expect(signals[1].aborted).toBe(true);
 });
+
+it("does't run request when hook is skipped", () => {
+  const api = new TestAPI();
+  const fetch = jest.fn(() => api.fetch(1));
+
+  const { result, rerender } = renderHook(
+    ({ skip }) => usePromise(fetch, [], { skip }),
+    { initialProps: { skip: true } },
+  );
+
+  expect(fetch).not.toHaveBeenCalled();
+  expect(result.current).toMatchInlineSnapshot(`
+    Object {
+      "status": "pending",
+    }
+  `);
+
+  act(() => api.resolve(1, "foo"));
+
+  expect(fetch).not.toHaveBeenCalled();
+  expect(result.current).toMatchInlineSnapshot(`
+    Object {
+      "status": "pending",
+    }
+  `);
+
+  rerender({ skip: false });
+
+  expect(fetch).toHaveBeenCalledTimes(1);
+  expect(result.current).toMatchInlineSnapshot(`
+    Object {
+      "status": "pending",
+    }
+  `);
+
+  act(() => api.resolve(1, "foo"));
+
+  expect(fetch).toHaveBeenCalledTimes(1);
+  expect(result.current).toMatchInlineSnapshot(`
+    Object {
+      "status": "fulfilled",
+      "value": "foo",
+    }
+  `);
+});
+
+it("aborts pending request on skip", () => {
+  const api = new TestAPI();
+  const abortSignals: AbortSignal[] = [];
+
+  const { rerender } = renderHook(
+    ({ skip }) =>
+      usePromise(
+        ({ abortSignal }) => {
+          abortSignals.push(abortSignal);
+
+          return api.fetch(1);
+        },
+        [],
+        { skip },
+      ),
+    { initialProps: { skip: false } },
+  );
+
+  expect(abortSignals).toHaveLength(1);
+  expect(abortSignals[0].aborted).toBe(false);
+
+  rerender({ skip: true });
+
+  expect(abortSignals).toHaveLength(1);
+  expect(abortSignals[0].aborted).toBe(true);
+
+  rerender({ skip: false });
+
+  expect(abortSignals).toHaveLength(2);
+  expect(abortSignals[0].aborted).toBe(true);
+  expect(abortSignals[1].aborted).toBe(false);
+});

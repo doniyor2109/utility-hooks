@@ -13,20 +13,29 @@ export type PromiseState<T> =
   | { status: "fulfilled"; value: T; error?: undefined }
   | { status: "rejected"; value?: undefined; error: Error };
 
+export interface UsePromiseOptions {
+  skip?: boolean;
+}
+
 export function usePromise<T>(
   factory: (options: { abortSignal: AbortSignal }) => Promise<T>,
   deps: DependencyList,
+  { skip = false }: UsePromiseOptions = {},
 ): PromiseState<T> {
   const [state, setState] = useState<PromiseState<T>>({ status: "pending" });
   const createPromise = useEventCallback(factory);
   const nextDeps = useMemoWith(() => deps, [deps], areEqualDeps);
 
   useEffect(() => {
-    const abortController = new AbortController();
-
     setState(prev =>
       prev.status === "pending" ? prev : { status: "pending" },
     );
+
+    if (skip) {
+      return;
+    }
+
+    const abortController = new AbortController();
 
     createPromise({ abortSignal: abortController.signal }).then(
       value => {
@@ -42,7 +51,7 @@ export function usePromise<T>(
     );
 
     return () => abortController.abort();
-  }, [createPromise, nextDeps]);
+  }, [skip, nextDeps, createPromise]);
 
   return state;
 }
