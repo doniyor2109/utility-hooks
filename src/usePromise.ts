@@ -1,17 +1,17 @@
-import { DependencyList, useEffect, useState } from "react";
+import { DependencyList, useEffect, useState } from 'react';
 
-import { areDepsEqualWith } from "./areDepsEqualWith";
-import { useEventCallback } from "./useEventCallback";
-import { useMemoWith } from "./useMemoWith";
+import { areDepsEqualWith } from './areDepsEqualWith';
+import { useEventCallback } from './useEventCallback';
+import { useMemoWith } from './useMemoWith';
 
 function areEqualDeps(a: DependencyList, b: DependencyList) {
-  return areDepsEqualWith("usePromise", a, b, Object.is);
+  return areDepsEqualWith('usePromise', a, b, Object.is);
 }
 
 export type PromiseState<T> =
-  | { status: "pending"; value?: undefined; error?: undefined }
-  | { status: "fulfilled"; value: T; error?: undefined }
-  | { status: "rejected"; value?: undefined; error: Error };
+  | { status: 'pending'; value?: undefined; error?: undefined }
+  | { status: 'fulfilled'; value: T; error?: undefined }
+  | { status: 'rejected'; value?: undefined; error: Error };
 
 export interface UsePromiseOptions {
   skip?: boolean;
@@ -22,13 +22,13 @@ export function usePromise<T>(
   deps: DependencyList,
   { skip = false }: UsePromiseOptions = {},
 ): PromiseState<T> {
-  const [state, setState] = useState<PromiseState<T>>({ status: "pending" });
+  const [state, setState] = useState<PromiseState<T>>({ status: 'pending' });
   const createPromise = useEventCallback(factory);
   const nextDeps = useMemoWith(() => deps, [deps], areEqualDeps);
 
   useEffect(() => {
     setState(prev =>
-      prev.status === "pending" ? prev : { status: "pending" },
+      prev.status === 'pending' ? prev : { status: 'pending' },
     );
 
     if (skip) {
@@ -40,12 +40,12 @@ export function usePromise<T>(
     createPromise({ abortSignal: abortController.signal }).then(
       value => {
         if (!abortController.signal.aborted) {
-          setState({ status: "fulfilled", value });
+          setState({ status: 'fulfilled', value });
         }
       },
       error => {
         if (!abortController.signal.aborted) {
-          setState({ status: "rejected", error });
+          setState({ status: 'rejected', error });
         }
       },
     );

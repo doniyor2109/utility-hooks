@@ -1,38 +1,38 @@
-import { cleanup } from "@testing-library/react";
-import { renderHook } from "@testing-library/react-hooks";
+import { cleanup } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 
-import { useWhenValueChanges } from "../useWhenValueChanges";
+import { useWhenValueChanges } from '../useWhenValueChanges';
 
 afterEach(cleanup);
 
-it("calls effect only when value changes", () => {
+it('calls effect only when value changes', () => {
   const effect = jest.fn();
 
   const { rerender } = renderHook(
     ({ value }) => useWhenValueChanges(value, effect),
     {
-      initialProps: { value: "foo" },
+      initialProps: { value: 'foo' },
     },
   );
 
   expect(effect).toHaveBeenCalledTimes(0);
 
-  rerender({ value: "bar" });
+  rerender({ value: 'bar' });
 
   expect(effect).toHaveBeenCalledTimes(1);
-  expect(effect).toHaveBeenLastCalledWith("foo");
+  expect(effect).toHaveBeenLastCalledWith('foo');
 
-  rerender({ value: "bar" });
+  rerender({ value: 'bar' });
 
   expect(effect).toHaveBeenCalledTimes(1);
 
-  rerender({ value: "baz" });
+  rerender({ value: 'baz' });
 
   expect(effect).toHaveBeenCalledTimes(2);
-  expect(effect).toHaveBeenLastCalledWith("bar");
+  expect(effect).toHaveBeenLastCalledWith('bar');
 });
 
-it("compares with custom isEqual function", () => {
+it('compares with custom isEqual function', () => {
   const effect = jest.fn();
 
   const value1 = new Date(0);

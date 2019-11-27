@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
 
-import { useValueRef } from "./useValueRef";
+import { useValueRef } from './useValueRef';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useEventCallback<T extends (...args: any[]) => any>(

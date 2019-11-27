@@ -1,13 +1,13 @@
-import { cleanup } from "@testing-library/react";
-import { renderHook } from "@testing-library/react-hooks";
+import { cleanup } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 
-import { usePromise } from "../usePromise";
+import { usePromise } from '../usePromise';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 afterEach(cleanup);
 
-it("fulfills value", async () => {
+it('fulfills value', async () => {
   const { result, waitForNextUpdate } = renderHook(
     ({ id }) =>
       usePromise(async () => {
@@ -36,7 +36,7 @@ it("fulfills value", async () => {
   `);
 });
 
-it("rejects value", async () => {
+it('rejects value', async () => {
   const { result, waitForNextUpdate } = renderHook(
     ({ id }) => usePromise(() => Promise.reject(new Error(`ID: ${id}`)), [id]),
     { initialProps: { id: 1 } },
@@ -58,7 +58,7 @@ it("rejects value", async () => {
   `);
 });
 
-it("resets state on deps change", async () => {
+it('resets state on deps change', async () => {
   const { unmount, result, rerender, waitForNextUpdate } = renderHook(
     ({ id }) => usePromise(() => Promise.resolve({ id }), [id]),
     { initialProps: { id: 1 } },
@@ -92,7 +92,7 @@ it("resets state on deps change", async () => {
   unmount();
 });
 
-it("ignores previously called promises", async () => {
+it('ignores previously called promises', async () => {
   const { result, rerender, waitForNextUpdate } = renderHook(
     ({ delay }) => usePromise(() => wait(delay).then(() => delay), [delay]),
     { initialProps: { delay: 300 } },
@@ -135,7 +135,7 @@ it("ignores previously called promises", async () => {
   expect(result.current).toBe(finalValue);
 });
 
-it("provides abort signal", () => {
+it('provides abort signal', () => {
   const signals: AbortSignal[] = [];
 
   const { rerender, unmount } = renderHook(
@@ -204,7 +204,7 @@ it("does't run request when hook is skipped", async () => {
   `);
 });
 
-it("aborts pending request on skip", () => {
+it('aborts pending request on skip', () => {
   const abortSignals: AbortSignal[] = [];
 
   const { rerender, unmount } = renderHook(

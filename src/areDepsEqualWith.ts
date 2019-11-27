@@ -1,6 +1,6 @@
-import { DependencyList } from "react";
+import { DependencyList } from 'react';
 
-import { warning } from "./internal/warning";
+import { warning } from './internal/warning';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Comparator = (a: any, b: any) => boolean;
@@ -12,13 +12,13 @@ export function areDepsEqualWith(
   isEqual: Comparator,
 ): boolean {
   /* istanbul ignore next */
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === 'production') {
     warning(
       nextDeps.length !== prevDeps.length,
-      "The final argument passed to %s changed size between renders. The " +
-        "order and size of this array must remain constant.\n\n" +
-        "Previous: [%s]\n" +
-        "Incoming: [%s]",
+      'The final argument passed to %s changed size between renders. The ' +
+        'order and size of this array must remain constant.\n\n' +
+        'Previous: [%s]\n' +
+        'Incoming: [%s]',
       [hookName, nextDeps, prevDeps],
     );
   }

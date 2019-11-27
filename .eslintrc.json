@@ -24,16 +24,6 @@
       "rules": {
         "@typescript-eslint/no-explicit-any": "off"
       }
-    },
-    {
-      "files": "*",
-      "rules": {
-        "quotes": [
-          "error",
-          "double",
-          { "avoidEscape": true, "allowTemplateLiterals": false }
-        ]
-      }
     }
   ]
 }

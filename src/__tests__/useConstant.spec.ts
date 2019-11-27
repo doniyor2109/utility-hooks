@@ -1,11 +1,11 @@
-import { cleanup } from "@testing-library/react";
-import { renderHook } from "@testing-library/react-hooks";
+import { cleanup } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 
-import { useConstant } from "../useConstant";
+import { useConstant } from '../useConstant';
 
 afterEach(cleanup);
 
-it("runs factory once to create value", () => {
+it('runs factory once to create value', () => {
   const factory = jest.fn(() => Math.random());
   const { result, rerender } = renderHook(() => useConstant(factory));
 
@@ -18,7 +18,7 @@ it("runs factory once to create value", () => {
   expect(factory).toHaveLastReturnedWith(result.current);
 });
 
-it("runs factory once for nil values", () => {
+it('runs factory once for nil values', () => {
   [0, NaN, null, false, undefined].forEach(x => {
     const factory = jest.fn(() => x);
     const { result, rerender } = renderHook(() => useConstant(factory));

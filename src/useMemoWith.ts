@@ -1,7 +1,7 @@
-import { DependencyList, useRef } from "react";
+import { DependencyList, useRef } from 'react';
 
-import { areDepsEqualWith, Comparator } from "./areDepsEqualWith";
-import { usePrevious } from "./usePrevious";
+import { areDepsEqualWith, Comparator } from './areDepsEqualWith';
+import { usePrevious } from './usePrevious';
 
 export function useMemoWith<T>(
   factory: () => T,
@@ -14,7 +14,7 @@ export function useMemoWith<T>(
   if (
     !prevDepsRef ||
     !valueRef.current ||
-    !areDepsEqualWith("useMemoWith", deps, prevDepsRef, isEqual)
+    !areDepsEqualWith('useMemoWith', deps, prevDepsRef, isEqual)
   ) {
     valueRef.current = factory();
   }

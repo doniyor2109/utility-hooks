@@ -1,11 +1,11 @@
-import { cleanup } from "@testing-library/react";
-import { renderHook } from "@testing-library/react-hooks";
+import { cleanup } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 
-import { useValueRef } from "../useValueRef";
+import { useValueRef } from '../useValueRef';
 
 afterEach(cleanup);
 
-it("stores and updates value in ref", () => {
+it('stores and updates value in ref', () => {
   const values = [{}, {}, {}];
 
   const { result, rerender } = renderHook(({ value }) => useValueRef(value), {

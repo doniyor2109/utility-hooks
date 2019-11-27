@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
 module.exports = api => {
-  const isTest = api.env("test");
+  const isTest = api.env('test');
 
   api.cache(() => JSON.stringify({ isTest }));
 
@@ -12,9 +12,9 @@ module.exports = api => {
   return {
     compact: false,
     presets: [
-      "@babel/preset-react",
-      "@babel/preset-typescript",
-      ["@babel/preset-env", { targets: { node: true } }],
+      '@babel/preset-react',
+      '@babel/preset-typescript',
+      ['@babel/preset-env', { targets: { node: true } }],
     ],
   };
 };

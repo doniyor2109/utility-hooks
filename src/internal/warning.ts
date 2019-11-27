@@ -4,11 +4,11 @@ export function warning(
   format: string,
   args: unknown[],
 ): void {
-  if (!condition || process.env.NODE_ENV === "production") {
+  if (!condition || process.env.NODE_ENV === 'production') {
     return;
   }
 
-  if (typeof console !== "undefined") {
+  if (typeof console !== 'undefined') {
     // eslint-disable-next-line no-console
     console.error(format, ...args);
   }
@@ -26,7 +26,7 @@ const shownDeprecatedMessages: Record<string, true> = {};
 
 /* istanbul ignore next */
 export function deprecated(message: string): void {
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === 'production') {
     return;
   }
 
