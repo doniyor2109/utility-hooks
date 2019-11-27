@@ -1,4 +1,4 @@
-import { DependencyList, useEffect, useState } from 'react';
+import { DependencyList, Key, useEffect, useState } from 'react';
 
 import { areDepsEqualWith } from './areDepsEqualWith';
 import { useEventCallback } from './useEventCallback';
@@ -14,6 +14,7 @@ export type PromiseState<T> =
   | { status: 'rejected'; value?: undefined; error: Error };
 
 export interface UsePromiseOptions {
+  key?: Key;
   skip?: boolean;
 }
 
@@ -28,7 +29,7 @@ export type UsePromiseFactory<T> = (
 export function usePromise<T>(
   factory: UsePromiseFactory<T>,
   deps: DependencyList,
-  { skip = false }: UsePromiseOptions = {},
+  { key, skip = false }: UsePromiseOptions = {},
 ): PromiseState<T> {
   const [state, setState] = useState<PromiseState<T>>({ status: 'pending' });
   const createPromise = useEventCallback(factory);
@@ -59,7 +60,7 @@ export function usePromise<T>(
     );
 
     return () => abortController.abort();
-  }, [skip, nextDeps, createPromise]);
+  }, [key, skip, nextDeps, createPromise]);
 
   return state;
 }
