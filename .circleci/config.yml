@@ -76,7 +76,7 @@ workflows:
 
   scheduled:
     jobs:
-      - build
+      - main
     triggers:
       - schedule:
           cron: '0 0 * * *'
