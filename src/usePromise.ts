@@ -17,8 +17,16 @@ export interface UsePromiseOptions {
   skip?: boolean;
 }
 
+export interface UsePromiseFactoryOptions {
+  abortSignal: AbortSignal;
+}
+
+export type UsePromiseFactory<T> = (
+  options: UsePromiseFactoryOptions,
+) => Promise<T>;
+
 export function usePromise<T>(
-  factory: (options: { abortSignal: AbortSignal }) => Promise<T>,
+  factory: UsePromiseFactory<T>,
   deps: DependencyList,
   { skip = false }: UsePromiseOptions = {},
 ): PromiseState<T> {
