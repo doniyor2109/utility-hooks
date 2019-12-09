@@ -11,7 +11,8 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - yarn
+            - yarn-{{ checksum "package.json" }}
+            - yarn-
 
       - run:
           name: Install Dependencies
@@ -20,7 +21,7 @@ commands:
       - save_cache:
           paths:
             - ~/.cache/yarn
-          key: yarn
+          key: yarn-{{ checksum "package.json" }}
 
 jobs:
   main:
