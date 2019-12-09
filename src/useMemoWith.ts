@@ -1,12 +1,12 @@
 import { DependencyList, useRef } from 'react';
 
-import { areDepsEqualWith, Comparator } from './areDepsEqualWith';
+import { areDepsEqualWith, DepsComparator } from './areDepsEqualWith';
 import { usePrevious } from './usePrevious';
 
 export function useMemoWith<T>(
   factory: () => T,
   deps: DependencyList,
-  isEqual: Comparator,
+  isEqual: DepsComparator,
 ): T {
   const prevDepsRef = usePrevious(deps);
   const valueRef = useRef<T | null>(null);

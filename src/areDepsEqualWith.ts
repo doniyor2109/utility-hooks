@@ -3,13 +3,13 @@ import { DependencyList } from 'react';
 import { warning } from './internal/warning';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Comparator = (a: any, b: any) => boolean;
+export type DepsComparator = (a: any, b: any) => boolean;
 
 export function areDepsEqualWith(
   hookName: string,
   nextDeps: DependencyList,
   prevDeps: DependencyList,
-  isEqual: Comparator,
+  isEqual: DepsComparator,
 ): boolean {
   /* istanbul ignore next */
   if (process.env.NODE_ENV === 'production') {
