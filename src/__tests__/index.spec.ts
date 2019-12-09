@@ -6,6 +6,7 @@ it('exposes public api', () => {
       "areDepsEqualWith": [Function],
       "useConstant": [Function],
       "useEventCallback": [Function],
+      "useIsomorphicLayoutEffect": [Function],
       "useMemoWith": [Function],
       "usePrevious": [Function],
       "usePromise": [Function],

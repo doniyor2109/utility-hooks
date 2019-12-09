@@ -2,6 +2,7 @@ export * from './areDepsEqualWith';
 
 export * from './useConstant';
 export * from './useEventCallback';
+export * from './useIsomorphicLayoutEffect';
 export * from './useMemoWith';
 export * from './usePrevious';
 export * from './usePromise';

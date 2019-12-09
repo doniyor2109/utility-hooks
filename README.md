@@ -28,7 +28,7 @@ npm install utility-hooks
 +  "react-hooks/exhaustive-deps": [
 +    "warn",
 +    {
-+      "additionalHooks": "^(useMemoWith|usePromise)$"
++      "additionalHooks": "^(useMemoWith|usePromise|useIsomorphicLayoutEffect)$"
 +    }
 +  ]
  }
@@ -69,7 +69,13 @@ Unlike `useCallback`, `useEventCallback` does not accept second argument and sto
 
 ```
 
-#### `useConstant(factory)`
+#### `useIsomorphicLayoutEffect(effect, deps)`
+
+> Inspired by [react-redux/src/utils/useIsomorphicLayoutEffect](https://github.com/reduxjs/react-redux/blob/0f1ab0960c38ac61b4fe69285a5b401f9f6e6177/src/utils/useIsomorphicLayoutEffect.js)
+
+Runs `useLayoutEffect` in browser environment (checks `document.createElement`), otherwise `useEffect`.
+
+#### useConstant(factory)`
 
 > Inspired by [How to create expensive objects lazily?](https://reactjs.org/docs/hooks-faq.html#how-to-create-expensive-objects-lazily)
 
