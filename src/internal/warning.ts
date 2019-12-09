@@ -21,19 +21,3 @@ export function warning(
     );
   } catch (e) {}
 }
-
-const shownDeprecatedMessages: Record<string, true> = {};
-
-/* istanbul ignore next */
-export function deprecated(message: string): void {
-  if (process.env.NODE_ENV === 'production') {
-    return;
-  }
-
-  if (shownDeprecatedMessages[message]) {
-    return;
-  }
-
-  shownDeprecatedMessages[message] = true;
-  warning(false, message, []);
-}
