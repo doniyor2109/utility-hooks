@@ -24,7 +24,7 @@ export interface UsePromiseFactoryOptions {
 
 export type UsePromiseFactory<T> = (
   options: UsePromiseFactoryOptions,
-) => Promise<T>;
+) => T | PromiseLike<T>;
 
 export function usePromise<T>(
   factory: UsePromiseFactory<T>,
@@ -46,7 +46,9 @@ export function usePromise<T>(
 
     const abortController = new AbortController();
 
-    createPromise({ abortSignal: abortController.signal }).then(
+    Promise.resolve(
+      createPromise({ abortSignal: abortController.signal }),
+    ).then(
       value => {
         if (!abortController.signal.aborted) {
           setState({ status: 'fulfilled', value });

@@ -9,12 +9,56 @@ afterEach(cleanup);
 
 it('fulfills value', async () => {
   const { result, waitForNextUpdate } = renderHook(
-    ({ id }) =>
-      usePromise(async () => {
-        await wait(id * 100);
+    ({ id }) => usePromise(() => Promise.resolve({ id }), [id]),
+    { initialProps: { id: 1 } },
+  );
 
-        return { id };
-      }, [id]),
+  expect(result.current).toMatchInlineSnapshot(`
+    Object {
+      "status": "pending",
+    }
+  `);
+
+  await waitForNextUpdate();
+
+  expect(result.current).toMatchInlineSnapshot(`
+    Object {
+      "status": "fulfilled",
+      "value": Object {
+        "id": 1,
+      },
+    }
+  `);
+});
+
+it('accepts non promise value', async () => {
+  const { result, waitForNextUpdate } = renderHook(
+    ({ id }) => usePromise(() => ({ id }), [id]),
+    { initialProps: { id: 1 } },
+  );
+
+  expect(result.current).toMatchInlineSnapshot(`
+    Object {
+      "status": "pending",
+    }
+  `);
+
+  await waitForNextUpdate();
+
+  expect(result.current).toMatchInlineSnapshot(`
+    Object {
+      "status": "fulfilled",
+      "value": Object {
+        "id": 1,
+      },
+    }
+  `);
+});
+
+it('accepts thenable value', async () => {
+  const { result, waitForNextUpdate } = renderHook(
+    ({ id }) =>
+      usePromise(() => ({ then: resolve => resolve?.({ id }) }), [id]),
     { initialProps: { id: 1 } },
   );
 
