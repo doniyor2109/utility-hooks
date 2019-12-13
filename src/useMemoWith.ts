@@ -8,16 +8,16 @@ export function useMemoWith<T>(
   deps: DependencyList,
   isEqual: DepsComparator,
 ): T {
-  const prevDepsRef = usePrevious(deps);
-  const valueRef = useRef<T | null>(null);
+  const value = useRef<T>();
+  const prevDeps = usePrevious(deps);
 
   if (
-    !prevDepsRef ||
-    !valueRef.current ||
-    !areDepsEqualWith('useMemoWith', deps, prevDepsRef, isEqual)
+    !prevDeps ||
+    !value.current ||
+    !areDepsEqualWith('useMemoWith', deps, prevDeps, isEqual)
   ) {
-    valueRef.current = factory();
+    value.current = factory();
   }
 
-  return valueRef.current;
+  return value.current;
 }

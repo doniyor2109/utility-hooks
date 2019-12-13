@@ -6,5 +6,6 @@ export * from './useIsomorphicLayoutEffect';
 export * from './useMemoWith';
 export * from './usePrevious';
 export * from './usePromise';
+export * from './usePureMemo';
 export * from './useValueRef';
 export * from './useWhenValueChanges';

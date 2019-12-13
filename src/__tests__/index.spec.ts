@@ -10,6 +10,7 @@ it('exposes public api', () => {
       "useMemoWith": [Function],
       "usePrevious": [Function],
       "usePromise": [Function],
+      "usePureMemo": [Function],
       "useValueRef": [Function],
       "useWhenValueChanges": [Function],
     }

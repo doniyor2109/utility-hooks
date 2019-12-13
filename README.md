@@ -28,7 +28,7 @@ npm install utility-hooks
 +  "react-hooks/exhaustive-deps": [
 +    "warn",
 +    {
-+      "additionalHooks": "^(useMemoWith|usePromise|useIsomorphicLayoutEffect)$"
++      "additionalHooks": "^(useMemoWith|usePromise|usePureMemo|useIsomorphicLayoutEffect)$"
 +    }
 +  ]
  }
@@ -190,6 +190,30 @@ const [filter, setFilter] = useState('')
 +  "https://foo.bars/api?filter=" + filter,
 +   { signal: abortSignal }
 + ), [filter])
+```
+
+#### `usePureMemo(factory, deps, isEqual)`
+
+Works like `useMemoWith`, but also compares return value.
+
+```diff
+ export function useFetch(url, options) {
+-  const cachedOptionsRef = useRef();
+-
+-  if (
+-    !cachedOptionsRef.current ||
+-    !_.isEqual(options, cachedOptionsRef.current)
+-  ) {
+-    cachedOptionsRef.current = options;
+-  }
++  const cachedOptions = usePureMemo(() => options, [url, options], _.isEqual);
+
+   useEffect(() => {
+     // Perform fetch
+-  }, [url, cachedOptionsRef.current]);
++  }, [url, cachedOptions]);
+ }
+
 ```
 
 #### `useValueRef(value)`
