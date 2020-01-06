@@ -1,23 +1,15 @@
 /* istanbul ignore next */
-export function warning(
-  condition: boolean,
-  format: string,
-  args: unknown[],
-): void {
+export function warning(condition: boolean, message: string): void {
   if (!condition || process.env.NODE_ENV === 'production') {
     return;
   }
 
   if (typeof console !== 'undefined') {
     // eslint-disable-next-line no-console
-    console.error(format, ...args);
+    console.error(message);
   }
 
   try {
-    let argIndex = 0;
-
-    throw new Error(
-      `Warning: ${format.replace(/%s/g, () => args[argIndex++] as string)}`,
-    );
+    throw new Error(`Warning: ${message}`);
   } catch {}
 }
