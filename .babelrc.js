@@ -7,6 +7,15 @@ module.exports = api => {
 
   return {
     compact: false,
-    presets: [['@superdispatch/babel-preset', { targets: 'esmodules' }]],
+    presets: [
+      [
+        '@superdispatch/babel-preset',
+        {
+          loose: true,
+          targets: 'esmodules',
+          optimize: { runtime: false },
+        },
+      ],
+    ],
   };
 };
