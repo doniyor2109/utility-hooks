@@ -15,7 +15,6 @@
     "version": "npm run build"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.5",
     "@pika/cli": "^0.2.0",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.8.1",
