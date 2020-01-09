@@ -1,7 +1,7 @@
 import { DependencyList } from 'react';
 
-import { DepsComparator } from './areDepsEqualWith';
 import { useMemoWith } from './useMemoWith';
+import { DepsComparator } from './usePureDeps';
 
 export function usePureMemo<T>(
   factory: () => T,

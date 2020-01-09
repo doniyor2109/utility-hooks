@@ -1,11 +1,10 @@
-export * from './areDepsEqualWith';
-
 export * from './useConstant';
 export * from './useEventCallback';
 export * from './useIsomorphicLayoutEffect';
 export * from './useMemoWith';
 export * from './usePrevious';
 export * from './usePromise';
+export * from './usePureDeps';
 export * from './usePureMemo';
 export * from './useValueRef';
 export * from './useWhenValueChanges';

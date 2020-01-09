@@ -1,12 +1,7 @@
 import { DependencyList, Key, useEffect, useState } from 'react';
 
-import { areDepsEqualWith } from './areDepsEqualWith';
 import { useEventCallback } from './useEventCallback';
-import { useMemoWith } from './useMemoWith';
-
-function areEqualDeps(a: DependencyList, b: DependencyList) {
-  return areDepsEqualWith('usePromise', a, b, Object.is);
-}
+import { usePureDeps } from './usePureDeps';
 
 export type PromiseState<T> =
   | { status: 'pending'; value?: undefined; error?: undefined }
@@ -33,7 +28,7 @@ export function usePromise<T>(
 ): PromiseState<T> {
   const [state, setState] = useState<PromiseState<T>>({ status: 'pending' });
   const createPromise = useEventCallback(factory);
-  const nextDeps = useMemoWith(() => deps, [deps], areEqualDeps);
+  const pureDeps = usePureDeps(deps);
 
   useEffect(() => {
     setState(prev =>
@@ -62,7 +57,7 @@ export function usePromise<T>(
     );
 
     return () => abortController.abort();
-  }, [key, skip, nextDeps, createPromise]);
+  }, [key, skip, pureDeps, createPromise]);
 
   return state;
 }

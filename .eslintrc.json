@@ -14,7 +14,9 @@
       "rules": {
         "react-hooks/exhaustive-deps": [
           "error",
-          { "additionalHooks": "^(useMemoWith|usePromise)$" }
+          {
+            "additionalHooks": "^(useMemoWith|usePromise|usePureDeps|usePureMemo|useIsomorphicLayoutEffect)$"
+          }
         ]
       }
     },
