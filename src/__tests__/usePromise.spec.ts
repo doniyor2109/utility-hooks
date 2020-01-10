@@ -1,11 +1,8 @@
-import { cleanup } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { reducePromiseState, usePromise } from '../usePromise';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-afterEach(cleanup);
 
 it('fulfills value', async () => {
   const { result, waitForNextUpdate } = renderHook(

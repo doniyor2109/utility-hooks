@@ -1,9 +1,6 @@
-import { cleanup } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { usePureMemo } from '../usePureMemo';
-
-afterEach(cleanup);
 
 interface Value {
   a: number;

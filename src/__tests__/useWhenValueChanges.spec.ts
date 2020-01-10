@@ -1,9 +1,6 @@
-import { cleanup } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { useWhenValueChanges } from '../useWhenValueChanges';
-
-afterEach(cleanup);
 
 it('calls effect only when value changes', () => {
   const effect = jest.fn();

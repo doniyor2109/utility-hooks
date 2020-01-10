@@ -1,9 +1,6 @@
-import { cleanup } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { useConstant } from '../useConstant';
-
-afterEach(cleanup);
 
 it('runs factory once to create value', () => {
   const factory = jest.fn(() => Math.random());

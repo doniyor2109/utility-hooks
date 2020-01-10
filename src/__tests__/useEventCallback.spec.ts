@@ -1,9 +1,6 @@
-import { cleanup } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { useEventCallback } from '../useEventCallback';
-
-afterEach(cleanup);
 
 it('creates proxy function', () => {
   const { result, rerender } = renderHook(

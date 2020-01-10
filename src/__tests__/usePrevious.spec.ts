@@ -1,9 +1,6 @@
-import { cleanup } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { usePrevious } from '../usePrevious';
-
-afterEach(cleanup);
 
 it('runs memoize only once', () => {
   const { result, rerender } = renderHook(

@@ -27,7 +27,6 @@
     "@superdispatch/js-tools": "^0.1.34",
     "@superdispatch/prettier-config": "^0.1.26",
     "@superdispatch/tsconfig": "^0.1.13",
-    "@testing-library/react": "^9.4.0",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/jest": "^24.0.25",
     "@types/react": "^16.9.17",

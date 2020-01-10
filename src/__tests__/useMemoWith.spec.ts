@@ -1,9 +1,6 @@
-import { cleanup } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { useMemoWith } from '../useMemoWith';
-
-afterEach(cleanup);
 
 function isEqualDate(a: Date, b: Date): boolean {
   return a.getTime() === b.getTime();
