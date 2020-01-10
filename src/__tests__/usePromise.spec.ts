@@ -211,6 +211,45 @@ it('provides abort signal', () => {
   expect(signals[1].aborted).toBe(true);
 });
 
+describe('options.key', () => {
+  it('runs fetch on `options.key` change', async () => {
+    const fetch = jest.fn(Math.random);
+    const { result, rerender, waitForNextUpdate } = renderHook(
+      ({ key }) => usePromise(fetch, [], { key }),
+      { initialProps: { key: 1 } },
+    );
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+
+    await waitForNextUpdate();
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveLastReturnedWith(result.current.value);
+
+    rerender({ key: 1 });
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+
+    rerender({ key: 2 });
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+
+    await waitForNextUpdate();
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).toHaveLastReturnedWith(result.current.value);
+
+    rerender({ key: 1 });
+
+    expect(fetch).toHaveBeenCalledTimes(3);
+
+    await waitForNextUpdate();
+
+    expect(fetch).toHaveBeenCalledTimes(3);
+    expect(fetch).toHaveLastReturnedWith(result.current.value);
+  });
+});
+
 describe('options.skip', () => {
   it("does't run request when hook is skipped", async () => {
     const fetch = jest.fn(() => Promise.resolve({ id: 1 }));
