@@ -7,7 +7,7 @@
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "scripts": {
     "build": "npx pika build",
-    "prebump": "npm run lint",
+    "prebump": "npx tsc && npm run lint",
     "bump": "npx pika publish --no-publish",
     "lint": "js-tools lint",
     "tdd": "jest --watch",

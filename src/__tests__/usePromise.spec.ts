@@ -1,7 +1,7 @@
 import { cleanup } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
-import { usePromise } from '../usePromise';
+import { reducePromiseState, usePromise } from '../usePromise';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -261,31 +261,31 @@ describe('options.skip', () => {
 
     expect(fetch).not.toHaveBeenCalled();
     expect(result.current).toMatchInlineSnapshot(`
-    Object {
-      "status": "pending",
-    }
-  `);
+      Object {
+        "status": "pending",
+      }
+    `);
 
     rerender({ skip: false });
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(result.current).toMatchInlineSnapshot(`
-    Object {
-      "status": "pending",
-    }
-  `);
+      Object {
+        "status": "pending",
+      }
+    `);
 
     await waitForNextUpdate();
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(result.current).toMatchInlineSnapshot(`
-    Object {
-      "status": "fulfilled",
-      "value": Object {
-        "id": 1,
-      },
-    }
-  `);
+      Object {
+        "status": "fulfilled",
+        "value": Object {
+          "id": 1,
+        },
+      }
+    `);
   });
 
   it('aborts pending request on skip', () => {
@@ -320,5 +320,278 @@ describe('options.skip', () => {
     expect(abortSignals[1].aborted).toBe(false);
 
     unmount();
+  });
+});
+
+describe('options.reducer', () => {
+  it('allows to reduce `init` action', async () => {
+    const { result, waitForNextUpdate } = renderHook(
+      ({ page }) =>
+        usePromise(() => [page], [page], {
+          reducer: (state, action) => {
+            if (action.type === 'init') {
+              return { status: 'pending', value: [] };
+            }
+
+            return reducePromiseState(state, action);
+          },
+        }),
+      { initialProps: { page: 1 } },
+    );
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "pending",
+        "value": Array [],
+      }
+    `);
+
+    await waitForNextUpdate();
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "fulfilled",
+        "value": Array [
+          1,
+        ],
+      }
+    `);
+  });
+
+  it('allows to reduce `perform` action', async () => {
+    const { result, rerender, waitForNextUpdate } = renderHook(
+      ({ page }) =>
+        usePromise(() => [page], [page], {
+          reducer: (state, action) => {
+            if (action.type === 'init') {
+              return { status: 'pending', value: [] };
+            }
+
+            if (action.type === 'pending') {
+              return { status: 'pending', value: state.value };
+            }
+
+            return reducePromiseState(state, action);
+          },
+        }),
+      { initialProps: { page: 1 } },
+    );
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "pending",
+        "value": Array [],
+      }
+    `);
+
+    await waitForNextUpdate();
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "fulfilled",
+        "value": Array [
+          1,
+        ],
+      }
+    `);
+
+    rerender({ page: 2 });
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "pending",
+        "value": Array [
+          1,
+        ],
+      }
+    `);
+
+    await waitForNextUpdate();
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "fulfilled",
+        "value": Array [
+          2,
+        ],
+      }
+    `);
+  });
+
+  it('allows to reduce `fulfill` action', async () => {
+    const { result, rerender, waitForNextUpdate } = renderHook(
+      ({ page }) =>
+        usePromise(() => [page], [page], {
+          reducer: (state, action) => {
+            if (action.type === 'init') {
+              return { status: 'pending', value: [] };
+            }
+
+            if (action.type === 'pending') {
+              return { status: 'pending', value: state.value };
+            }
+
+            if (action.type === 'fulfill') {
+              return {
+                status: 'fulfilled',
+                value: !state.value
+                  ? action.payload
+                  : [...state.value, ...action.payload],
+              };
+            }
+
+            return reducePromiseState(state, action);
+          },
+        }),
+      { initialProps: { page: 1 } },
+    );
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "pending",
+        "value": Array [],
+      }
+    `);
+
+    await waitForNextUpdate();
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "fulfilled",
+        "value": Array [
+          1,
+        ],
+      }
+    `);
+
+    rerender({ page: 2 });
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "pending",
+        "value": Array [
+          1,
+        ],
+      }
+    `);
+
+    await waitForNextUpdate();
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "fulfilled",
+        "value": Array [
+          1,
+          2,
+        ],
+      }
+    `);
+  });
+
+  it('allows to reduce `reject` action', async () => {
+    const { result, rerender, waitForNextUpdate } = renderHook(
+      ({ page }) =>
+        usePromise(
+          () => (page < 3 ? [page] : Promise.reject(new Error('404'))),
+          [page],
+          {
+            reducer: (state, action) => {
+              if (action.type === 'init') {
+                return { status: 'pending', value: [] };
+              }
+
+              if (action.type === 'pending') {
+                return { status: 'pending', value: state.value };
+              }
+
+              if (action.type === 'fulfill') {
+                return {
+                  status: 'fulfilled',
+                  value: !state.value
+                    ? action.payload
+                    : [...state.value, ...action.payload],
+                };
+              }
+
+              if (action.type === 'reject') {
+                return {
+                  status: 'rejected',
+                  error: action.payload,
+                  value: state.value,
+                };
+              }
+
+              return state;
+            },
+          },
+        ),
+      { initialProps: { page: 1 } },
+    );
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "pending",
+        "value": Array [],
+      }
+    `);
+
+    await waitForNextUpdate();
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "fulfilled",
+        "value": Array [
+          1,
+        ],
+      }
+    `);
+
+    rerender({ page: 2 });
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "pending",
+        "value": Array [
+          1,
+        ],
+      }
+    `);
+
+    await waitForNextUpdate();
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "fulfilled",
+        "value": Array [
+          1,
+          2,
+        ],
+      }
+    `);
+
+    rerender({ page: 3 });
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "status": "pending",
+        "value": Array [
+          1,
+          2,
+        ],
+      }
+    `);
+
+    await waitForNextUpdate();
+
+    expect(result.current).toMatchInlineSnapshot(`
+      Object {
+        "error": [Error: 404],
+        "status": "rejected",
+        "value": Array [
+          1,
+          2,
+        ],
+      }
+    `);
   });
 });
