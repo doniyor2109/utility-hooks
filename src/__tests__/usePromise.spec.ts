@@ -211,34 +211,35 @@ it('provides abort signal', () => {
   expect(signals[1].aborted).toBe(true);
 });
 
-it("does't run request when hook is skipped", async () => {
-  const fetch = jest.fn(() => Promise.resolve({ id: 1 }));
+describe('options.skip', () => {
+  it("does't run request when hook is skipped", async () => {
+    const fetch = jest.fn(() => Promise.resolve({ id: 1 }));
 
-  const { result, rerender, waitForNextUpdate } = renderHook(
-    ({ skip }) => usePromise(fetch, [], { skip }),
-    { initialProps: { skip: true } },
-  );
+    const { result, rerender, waitForNextUpdate } = renderHook(
+      ({ skip }) => usePromise(fetch, [], { skip }),
+      { initialProps: { skip: true } },
+    );
 
-  expect(fetch).not.toHaveBeenCalled();
-  expect(result.current).toMatchInlineSnapshot(`
+    expect(fetch).not.toHaveBeenCalled();
+    expect(result.current).toMatchInlineSnapshot(`
     Object {
       "status": "pending",
     }
   `);
 
-  rerender({ skip: false });
+    rerender({ skip: false });
 
-  expect(fetch).toHaveBeenCalledTimes(1);
-  expect(result.current).toMatchInlineSnapshot(`
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(result.current).toMatchInlineSnapshot(`
     Object {
       "status": "pending",
     }
   `);
 
-  await waitForNextUpdate();
+    await waitForNextUpdate();
 
-  expect(fetch).toHaveBeenCalledTimes(1);
-  expect(result.current).toMatchInlineSnapshot(`
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(result.current).toMatchInlineSnapshot(`
     Object {
       "status": "fulfilled",
       "value": Object {
@@ -246,38 +247,39 @@ it("does't run request when hook is skipped", async () => {
       },
     }
   `);
-});
+  });
 
-it('aborts pending request on skip', () => {
-  const abortSignals: AbortSignal[] = [];
+  it('aborts pending request on skip', () => {
+    const abortSignals: AbortSignal[] = [];
 
-  const { rerender, unmount } = renderHook(
-    ({ skip }) =>
-      usePromise(
-        ({ abortSignal }) => {
-          abortSignals.push(abortSignal);
+    const { rerender, unmount } = renderHook(
+      ({ skip }) =>
+        usePromise(
+          ({ abortSignal }) => {
+            abortSignals.push(abortSignal);
 
-          return Promise.resolve({ id: 1 });
-        },
-        [],
-        { skip },
-      ),
-    { initialProps: { skip: false } },
-  );
+            return Promise.resolve({ id: 1 });
+          },
+          [],
+          { skip },
+        ),
+      { initialProps: { skip: false } },
+    );
 
-  expect(abortSignals).toHaveLength(1);
-  expect(abortSignals[0].aborted).toBe(false);
+    expect(abortSignals).toHaveLength(1);
+    expect(abortSignals[0].aborted).toBe(false);
 
-  rerender({ skip: true });
+    rerender({ skip: true });
 
-  expect(abortSignals).toHaveLength(1);
-  expect(abortSignals[0].aborted).toBe(true);
+    expect(abortSignals).toHaveLength(1);
+    expect(abortSignals[0].aborted).toBe(true);
 
-  rerender({ skip: false });
+    rerender({ skip: false });
 
-  expect(abortSignals).toHaveLength(2);
-  expect(abortSignals[0].aborted).toBe(true);
-  expect(abortSignals[1].aborted).toBe(false);
+    expect(abortSignals).toHaveLength(2);
+    expect(abortSignals[0].aborted).toBe(true);
+    expect(abortSignals[1].aborted).toBe(false);
 
-  unmount();
+    unmount();
+  });
 });
