@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { reducePromiseState, usePromise } from '../usePromise';
 
-const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 it('fulfills value', async () => {
   const { result, waitForNextUpdate } = renderHook(
@@ -55,7 +55,7 @@ it('accepts non promise value', async () => {
 it('accepts thenable value', async () => {
   const { result, waitForNextUpdate } = renderHook(
     ({ id }) =>
-      usePromise(() => ({ then: resolve => resolve?.({ id }) }), [id]),
+      usePromise(() => ({ then: (resolve) => resolve?.({ id }) }), [id]),
     { initialProps: { id: 1 } },
   );
 

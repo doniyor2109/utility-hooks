@@ -69,7 +69,7 @@ export function usePromise<T>(
 ): PromiseState<T> {
   const pureDeps = usePureDeps(deps);
   const pureFactory = useEventCallback(factory);
-  const [state, dispatch] = useReducer(reducer, { status: 'pending' }, prev =>
+  const [state, dispatch] = useReducer(reducer, { status: 'pending' }, (prev) =>
     reducer(prev, { type: 'init' }),
   );
 
@@ -83,12 +83,12 @@ export function usePromise<T>(
     const abortController = new AbortController();
 
     Promise.resolve(pureFactory({ abortSignal: abortController.signal })).then(
-      payload => {
+      (payload) => {
         if (!abortController.signal.aborted) {
           dispatch({ type: 'fulfill', payload });
         }
       },
-      payload => {
+      (payload) => {
         if (!abortController.signal.aborted) {
           dispatch({ type: 'reject', payload });
         }

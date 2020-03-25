@@ -16,7 +16,7 @@ it('runs factory once to create value', () => {
 });
 
 it('runs factory once for nil values', () => {
-  [0, NaN, null, false, undefined].forEach(x => {
+  [0, NaN, null, false, undefined].forEach((x) => {
     const factory = jest.fn(() => x);
     const { result, rerender } = renderHook(() => useConstant(factory));
 
