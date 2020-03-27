@@ -6,9 +6,9 @@
   "license": "MIT",
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "scripts": {
-    "build": "npx pika build",
-    "prebump": "npx tsc && npm run lint",
-    "bump": "npx pika publish --no-publish",
+    "build": "pika build",
+    "prebump": "tsc && yarn lint",
+    "bump": "pika publish --no-publish",
     "lint": "js-tools lint",
     "tdd": "jest --watch",
     "test": "jest --coverage",
