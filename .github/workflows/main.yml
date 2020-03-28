@@ -1,11 +1,9 @@
-name: Node CI
+name: Main
 
 on:
   push:
     branches:
       - master
-    tags-ignore:
-      - v*
   pull_request:
     branches:
       - '**'

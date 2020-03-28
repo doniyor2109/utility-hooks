@@ -2,7 +2,7 @@
 
 > Collection of low-level React hooks.
 
-[![CircleCI](https://circleci.com/gh/umidbekkarimov/utility-hooks.svg?style=svg)](https://circleci.com/gh/umidbekkarimov/utility-hooks)
+[![Node CI](https://github.com/umidbekkarimov/utility-hooks/workflows/Main/badge.svg?branch=master)](https://github.com/umidbekkarimov/utility-hooks/actions)
 [![codecov](https://codecov.io/gh/umidbekkarimov/utility-hooks/branch/master/graph/badge.svg)](https://codecov.io/gh/umidbekkarimov/utility-hooks)
 [![npm version](https://img.shields.io/npm/v/utility-hooks.svg)](https://npmjs.com/utility-hooks)
 [![npm minzipped size](https://img.shields.io/bundlephobia/minzip/utility-hooks.svg)](https://bundlephobia.com/result?p=utility-hooks)
