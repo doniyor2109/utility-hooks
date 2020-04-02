@@ -308,16 +308,21 @@ function List({ disptach, page, selectedId }) {
 Determines weather component is mounted or not.
 
 ```diff
-function List() {
--  const mountedRef = useRef(false);
+function User({ setUser, fetchUser }) {
 +  const moutnedRef = useIsMounted();
--  useLayoutEffect(() => {
--    ref.current = true;
--
++
+   useLayoutEffect(() => {
+-    let current = true;
+     fetchUser().then((user) => {
+-       if (current) {
++       if (moutnedRef.current) {
+           setUser(user);
+        }
+     });
 -    return () => {
--      ref.current = false;
+-      current = false;
 -    };
--  }, []);
+   }, []);
 }
 ```
 
