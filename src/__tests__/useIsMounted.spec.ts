@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { useIsMounted } from '../useIsMounted';
 
-it('creates proxy function', () => {
+it('returns mounted state', () => {
   const {
     result: { current: mountedRef },
     unmount,
