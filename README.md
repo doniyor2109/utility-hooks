@@ -10,6 +10,30 @@
 [![npm downloads](https://img.shields.io/npm/dm/utility-hooks.svg)](https://npmjs.com/utility-hooks)
 [![npm license](https://img.shields.io/npm/l/utility-hooks.svg)](https://npmjs.com/utility-hooks)
 
+<!--ts-->
+
+- [Installation](#installation)
+- [Environment compatibility](#environment-compatibility)
+- [Static checking with react-hooks/exhaustive-deps](#static-checking-with-react-hooksexhaustive-deps)
+- [Hooks](#hooks)
+  - [useEventCallback(callback)](#useeventcallbackcallback)
+  - [useIsomorphicLayoutEffect(effect, deps)](#useisomorphiclayouteffecteffect-deps)
+  - [useConstant(factory)`](#useconstantfactory)
+  - [useMemoWith(factory, deps, isEqual)](#usememowithfactory-deps-isequal)
+  - [usePrevious(value)](#usepreviousvalue)
+  - [usePromise(factory, deps)](#usepromisefactory-deps)
+  - [usePureMemo(deps, isEqual)](#usepurememodeps-isequal)
+  - [usePureMemo(factory, deps, isEqual)](#usepurememofactory-deps-isequal)
+  - [useValueRef(value)](#usevaluerefvalue)
+  - [useWhenValueChanges(value, effect, isEqual)](#usewhenvaluechangesvalue-effect-isequal)
+  - [useIsMounted()](#useismounted)
+- [Utilities](#utilities)
+  - [areDepsEqualWith(hookName, nextDeps, prevDeps, isEqual)](#aredepsequalwithhookname-nextdeps-prevdeps-isequal)
+
+<!-- Added by: doniyor2109, at: Thu Apr  2 17:58:32 +05 2020 -->
+
+<!--te-->
+
 ### Installation
 
 ```bash
@@ -276,6 +300,24 @@ function List({ disptach, page, selectedId }) {
 +      dispatch({ type: "FETCH_LIST", page });
 +    }
 +  });
+}
+```
+
+#### `useIsMounted()`
+
+Determines weather component is mounted or not.
+
+```diff
+function List() {
+-  const mountedRef = useRef(false);
++  const moutnedRef = useIsMounted();
+-  useLayoutEffect(() => {
+-    ref.current = true;
+-
+-    return () => {
+-      ref.current = false;
+-    };
+-  }, []);
 }
 ```
 
