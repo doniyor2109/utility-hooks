@@ -99,7 +99,7 @@ Unlike `useCallback`, `useEventCallback` does not accept second argument and sto
 
 Runs `useLayoutEffect` in browser environment (checks `document.createElement`), otherwise `useEffect`.
 
-#### useConstant(factory)
+#### `useConstant(factory)`
 
 > Inspired by [How to create expensive objects lazily?](https://reactjs.org/docs/hooks-faq.html#how-to-create-expensive-objects-lazily)
 
